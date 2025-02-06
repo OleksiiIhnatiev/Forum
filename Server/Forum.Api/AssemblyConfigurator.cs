@@ -24,9 +24,6 @@ public static class AssemblyConfigurator
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
 
-        // todo gi figure out how to avoid using GetAllMembersQueryHandler
-        // todo gi probably register services by assembly name
-
         return services;
     }
 
