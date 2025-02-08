@@ -1,0 +1,79 @@
+<div class="max-width-350">
+  <mat-dialog-content>
+    <div class="form-container" [formGroup]="form">
+      <h2 class="text-center mb-4">Register</h2>
+
+      <mat-form-field appearance="fill" class="form-group mb-3 w-100">
+        <mat-label>UserName</mat-label>
+        <input
+          matInput
+          formControlName="username"
+          type="text"
+          placeholder="UserName"
+          class="form-control"
+        />
+        <mat-error *ngIf="hasUsernameRequiredError">
+          UserName is required
+        </mat-error>
+        <mat-error *ngIf="hasUsernameMinlengthError">
+          UserName must be at least 3 characters long
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-group mb-3 w-100">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          class="form-control"
+        />
+        <mat-error *ngIf="hasEmailRequiredError"> Email is required </mat-error>
+        <mat-error *ngIf="hasEmailInvalidError">
+          Enter a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-group mb-3 w-100">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hide ? 'password' : 'text'"
+          placeholder="Password"
+          class="form-control"
+        />
+
+        <img
+          [src]="getPasswordVisibilityIcon()"
+          alt="Toggle password visibility"
+          matSuffix
+          (click)="togglePasswordVisibility()"
+          class="password-visibility-icon"
+        />
+        <mat-error *ngIf="hasPasswordRequiredError">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="hasPasswordMinlengthError">
+          Password must be at least 6 characters long
+        </mat-error>
+        <mat-error *ngIf="hasPasswordStrongError">
+          Password must be > 6 symbols, contain at least one uppercase letter
+          and one special character
+        </mat-error>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+        (click)="register()"
+        class="w-100"
+      >
+        Register
+      </button>
+    </div>
+  </mat-dialog-content>
+</div>

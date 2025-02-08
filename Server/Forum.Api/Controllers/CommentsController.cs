@@ -1,4 +1,5 @@
 ﻿using Forum.Application.CQRS.Commands.Comments.CreateComment;
+using Forum.Application.CQRS.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,5 +14,12 @@ public class CommentsController(IMediator mediator) : ControllerBase
     {
         await mediator.Send(command, cancellationToken);
         return Ok();
+    }
+    [HttpGet("main-comments")]
+    public async Task<IActionResult> GetMainComments(CancellationToken cancellationToken)
+    {
+        var comments = await mediator.Send(new GetMainCommentsQuery(), cancellationToken);
+
+        return Ok(comments);
     }
 }

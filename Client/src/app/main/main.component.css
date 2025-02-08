@@ -1,0 +1,8 @@
+/* todo ai rename body to wrapper */
+/* todo ai try to avoid using specific css styles. try to use existing bootstrap classes among the whole project. we don't want to have big classes and css files with a lot of style. our gole to have extremely small css files via bootstrap classes instead of specific styles  */
+.body {
+  color: white;
+  background: #ffffff;
+  position: relative;
+  z-index: 1;
+}

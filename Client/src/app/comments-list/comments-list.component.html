@@ -1,0 +1,44 @@
+<section class="comment-section">
+  <div class="comment-container">
+    <h2 class="comment-title">Comments</h2>
+
+    <div *ngIf="isLoading" class="comment-loading">Loading...</div>
+
+    <div *ngIf="!isLoading">
+      <table class="comment-table">
+        <thead>
+          <tr>
+            <th (click)="changeSort('userName')">User Name</th>
+            <th (click)="changeSort('email')">E-mail</th>
+            <th (click)="changeSort('createdAt')">Date Added</th>
+            <th>Comment Text</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of comments" (click)="onRowClick(comment)">
+            <td>{{ comment.userName }}</td>
+            <td>{{ comment.email }}</td>
+            <td>{{ comment.createdAt | date : "short" }}</td>
+            <td>{{ comment.text }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="comment-pagination">
+      <button
+        class="comment-button"
+        (click)="currentPage = currentPage - 1; loadComments()"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+      <button
+        class="comment-button"
+        (click)="currentPage = currentPage + 1; loadComments()"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</section>
