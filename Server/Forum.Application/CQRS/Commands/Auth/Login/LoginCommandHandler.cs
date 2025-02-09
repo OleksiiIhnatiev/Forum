@@ -31,7 +31,7 @@ public class LoginCommandHandler(
             return CreateLoginResult(false, "Invalid password");
         }
 
-        var token = await jwtService.GenerateJwtTokenAsync(user.UserName);
+        var token = await jwtService.GenerateJwtTokenAsync(user.Id, user.UserName, user.Email);
 
         var tokenResult = await userManager.SetAuthenticationTokenAsync(user, authenticationOptions.Value.Forum.Provider, authenticationOptions.Value.Forum.TokenName, token);
 
@@ -42,6 +42,7 @@ public class LoginCommandHandler(
 
         return CreateLoginResult(true, token: token);
     }
+
 
     private AuthResponseDto CreateLoginResult(bool success, string errorMessage = null, string token = null)
     {

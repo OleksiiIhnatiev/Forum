@@ -1,0 +1,31 @@
+<section class="comment-detail">
+  <div *ngIf="isLoading" class="comment-loading">Loading...</div>
+
+  <div *ngIf="!isLoading && comment" class="comment-container">
+    <div class="comment-header">
+      <h2>{{ comment.userName }}</h2>
+      <span>{{ comment.createdAt | date : "short" }}</span>
+    </div>
+    <p>{{ comment.text }}</p>
+
+    <div *ngIf="comment.replies.length > 0" class="replies-section">
+      <div *ngFor="let reply of comment.replies" class="reply">
+        <div class="comment-header">
+          <h4>{{ reply.userName }}</h4>
+          <span>{{ reply.createdAt | date : "short" }}</span>
+        </div>
+        <p>{{ reply.text }}</p>
+
+        <div *ngIf="reply.replies.length > 0" class="sub-replies-section">
+          <div *ngFor="let subReply of reply.replies">
+            <div class="comment-header">
+              <h5>{{ subReply.userName }}</h5>
+              <span>{{ subReply.createdAt | date : "short" }}</span>
+            </div>
+            <p>{{ subReply.text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

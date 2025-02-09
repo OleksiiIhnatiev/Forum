@@ -1,0 +1,59 @@
+<h2 mat-dialog-title class="dialog-title">Add Comment</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="commentForm" class="comment-form">
+    <mat-form-field appearance="outline">
+      <mat-label>User Name</mat-label>
+      <input matInput formControlName="userName" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Home Page</mat-label>
+      <input matInput formControlName="homePage" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>CAPTCHA</mat-label>
+      <input matInput formControlName="captcha" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Text</mat-label>
+      <textarea matInput formControlName="text" required></textarea>
+    </mat-form-field>
+
+    <div class="file-upload">
+      <label class="custom-file-upload">
+        <input type="file" (change)="onFileSelected($event)" />
+        <span>📁 Choose File</span>
+      </label>
+      <div *ngIf="previewImage" class="preview-container">
+        <img [src]="previewImage" class="preview-image" />
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-stroked-button color="warn" (click)="onCancel()">Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!commentForm.valid"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</mat-dialog-actions>
+
+<!-- Добавьте сюда элемент для отображения обработанного текста -->
+<div
+  class="processed-text"
+  *ngIf="sanitizedText"
+  [innerHTML]="sanitizedText"
+></div>

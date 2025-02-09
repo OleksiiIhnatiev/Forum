@@ -4,7 +4,7 @@ using Forum.Application.CQRS.Dtos.Queries;
 using Forum.Application.Interfaces.Repositories;
 
 namespace Forum.Application.CQRS.Queries.Comments.GetMainComments;
-    public class GetMainCommentsQueryHandler : IRequestHandler<GetMainCommentsQuery, IReadOnlyList<GetMainCommentsDto>>
+public class GetMainCommentsQueryHandler : IRequestHandler<GetMainCommentsQuery, IReadOnlyList<GetMainCommentsDto>>
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;

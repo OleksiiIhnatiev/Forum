@@ -25,6 +25,8 @@ import {
   SocialAuthServiceConfig,
   GoogleLoginProvider,
 } from '@abacritt/angularx-social-login';
+import { CommentDetailComponent } from './comments-list/comment-detail/comment-detail.component';
+import { CommentDialogComponent } from './comments-list/comment-dialog/comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import {
     NavbarComponent,
     FooterComponent,
     HeaderComponent,
+    CommentDetailComponent,
     MainComponent,
+    CommentDialogComponent,
     AboutComponent,
     CommentsListComponent,
     LoginComponent,
@@ -48,6 +52,7 @@ import {
     MatSnackBarModule,
     MatCardModule,
     SocialLoginModule,
+    MatDialogModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,

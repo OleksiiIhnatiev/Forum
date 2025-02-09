@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommentsService, Comment } from '../../services/comments.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CommentDialogComponent } from '../comments-list/comment-dialog/comment-dialog.component';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-comments-list',
@@ -12,10 +16,12 @@ export class CommentsListComponent implements OnInit {
   currentPage = 1;
   sortBy = 'createdAt';
   order = 'desc';
-  isLoading = true;
+  isLoading = false;
+  errorMessage = '';
 
   constructor(
     private commentsService: CommentsService,
+    private dialog: MatDialog,
     private router: Router
   ) {}
 
@@ -28,31 +34,40 @@ export class CommentsListComponent implements OnInit {
 
     this.commentsService
       .getMainComments(this.currentPage, this.sortBy, this.order)
-      .subscribe({
-        next: (data) => {
-          console.log('Data received:', data);
-          this.comments = data.filter((comment) => !comment.isReply); 
-        },
-        error: (err) => {
-          console.error('Error loading comments:', err);
-        },
-        complete: () => {
+      .pipe(
+        tap((data) => {
+          this.comments = data.filter((comment) => !comment.replies);
           this.isLoading = false;
-        },
-      });
+        }),
+        catchError(() => {
+          this.errorMessage = 'Error loading comments';
+          this.isLoading = false;
+          return of([]);
+        })
+      )
+      .subscribe();
   }
 
   changeSort(field: string): void {
-    if (this.sortBy === field) {
-      this.order = this.order === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortBy = field;
-      this.order = 'asc';
-    }
+    this.sortBy = field;
+    this.order = this.order === 'asc' ? 'desc' : 'asc';
     this.loadComments();
   }
 
   onRowClick(comment: Comment): void {
-    this.router.navigate(['/comment', comment.id]); 
+    this.router.navigate(['/comment', comment.id]);
+  }
+
+  addMainComment(): void {
+    const dialogRef = this.dialog.open(CommentDialogComponent, {
+      width: '700px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadComments();
+      }
+    });
   }
 }

@@ -10,13 +10,15 @@ namespace Forum.Application.Services;
 
 public class JwtService(IOptions<JwtOptions> jwtOptions) : IJwtService
 {
-    public Task<string> GenerateJwtTokenAsync(string userName)
+    public Task<string> GenerateJwtTokenAsync(Guid userId, string userName, string email)
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, userName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+        new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+        new Claim(JwtRegisteredClaimNames.Name, userName),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.Email, email)
+    };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Value.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

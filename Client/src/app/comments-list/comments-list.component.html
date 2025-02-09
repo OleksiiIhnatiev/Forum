@@ -1,5 +1,9 @@
 <section class="comment-section">
   <div class="comment-container">
+    <button class="add-comment-button" (click)="addMainComment()">
+      + Create
+    </button>
+
     <h2 class="comment-title">Comments</h2>
 
     <div *ngIf="isLoading" class="comment-loading">Loading...</div>

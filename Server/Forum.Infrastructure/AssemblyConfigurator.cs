@@ -1,6 +1,7 @@
 ﻿using Forum.Application.CQRS.Commands.Auth.Register;
 using Forum.Application.Interfaces.Repositories;
 using Forum.Application.Interfaces.Services;
+using Forum.Application.Options;
 using Forum.Application.Services;
 using Forum.Domain.UserAggregate;
 using Forum.Infrastructure.Database;
@@ -25,6 +26,9 @@ public static class AssemblyConfigurator
 
         services.AddIdentity<User, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ForumContext>();
+
+        services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication"));
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(RegisterCommandHandler).Assembly));
 

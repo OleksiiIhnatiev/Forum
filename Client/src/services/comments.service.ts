@@ -1,30 +1,74 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 export interface Comment {
-  id: number;
+  id: string;
   userName: string;
   text: string;
   createdAt: string;
-  email: string | null; 
-  isReply: boolean;
+  email?: string | null;
+  replies: Comment[];
+}
+
+export interface CommentResponse {
+  success: boolean;
+  message: string;
+  data: Comment;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommentsService {
-  private apiUrl = 'http://localhost:5124/api/Comments/main-comments';  
+  private static readonly apiUrl = 'http://localhost:5124/api/Comments';
+  public commentsUpdatedSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {}
+  constructor(private httpClient: HttpClient) {}
 
-  getMainComments(page: number, sortBy: string, order: string): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`${this.apiUrl}?page=${page}&sortBy=${sortBy}&order=${order}`);
+  public addComment(formData: {
+    userId: string;
+    text: string;
+    parentCommentId: string | null;
+    imgFile: File | null;
+  }): Observable<CommentResponse> {
+    const formDataToSend = new FormData();
+    formDataToSend.append('UserId', formData.userId);
+    formDataToSend.append('Text', formData.text);
+    formDataToSend.append('ParentCommentId', formData.parentCommentId || '');
+    if (formData.imgFile) {
+      formDataToSend.append('ImgFile', formData.imgFile, formData.imgFile.name);
+    }
+
+    return this.httpClient
+      .post<CommentResponse>(`${CommentsService.apiUrl}`, formDataToSend)
+      .pipe(
+        tap(() => this.commentsUpdatedSubject.next(true)),
+        this.handleError<CommentResponse>()
+      );
   }
 
-  getCommentById(id: string): Observable<Comment> {
-    return this.http.get<Comment>(`${this.apiUrl}/${id}`);
+  public getMainComments(
+    page: number,
+    sortBy: string,
+    order: string
+  ): Observable<Comment[]> {
+    return this.httpClient
+      .get<Comment[]>(
+        `${CommentsService.apiUrl}/main-comments?page=${page}&sortBy=${sortBy}&order=${order}`
+      )
+      .pipe(this.handleError<Comment[]>());
   }
-  
+
+  public getCommentById(id: string): Observable<Comment> {
+    return this.httpClient
+      .get<Comment>(`${CommentsService.apiUrl}/${id}`)
+      .pipe(this.handleError<Comment>());
+  }
+
+  private handleError<T>(): (source: Observable<T>) => Observable<T> {
+    return (source: Observable<T>) =>
+      source.pipe(catchError((error) => throwError(() => error)));
+  }
 }

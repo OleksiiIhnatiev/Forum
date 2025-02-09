@@ -19,5 +19,25 @@ public class CommentRepository(ForumContext context) : ICommentRepository
             .Where(c => c.ParentCommentId == null)
             .ToListAsync(cancellationToken);
     }
+    public async Task<Comment?> GetCommentWithRepliesAsync(Guid commentId, CancellationToken cancellationToken)
+    {
+        var comments = await context.Comments
+            .Include(c => c.User)
+            .ToListAsync(cancellationToken);
+
+        return BuildCommentTree(comments, commentId);
+    }
+
+    private Comment? BuildCommentTree(List<Comment> comments, Guid parentId)
+    {
+        var root = comments.FirstOrDefault(c => c.Id == parentId);
+        if (root == null) return null;
+
+        root.Replies = comments.Where(c => c.ParentCommentId == root.Id)
+                               .Select(c => BuildCommentTree(comments, c.Id))
+                               .Where(c => c != null)
+                               .ToList()!;
+        return root;
+    }
 
 }

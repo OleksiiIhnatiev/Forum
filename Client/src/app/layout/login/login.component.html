@@ -32,6 +32,16 @@
           >Password must be at least 6 characters long</mat-error
         >
       </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+        (click)="login()"
+        class="w-100"
+      >
+        Login
+      </button>
     </div>
   </mat-dialog-content>
 </div>
