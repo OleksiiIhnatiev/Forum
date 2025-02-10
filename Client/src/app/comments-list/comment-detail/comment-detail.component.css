@@ -1,67 +1,47 @@
-.comment-detail {
-  font-family: Arial, sans-serif;
-  margin-bottom: 20px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.comment-loading {
-  text-align: center;
-  font-size: 16px;
-  color: #888;
-}
-
 .comment-container {
-  margin: 10px 0;
+  color: black;
+  margin: 8px 0;
+}
+
+.comment-card {
+  padding: 10px;
+  margin-bottom: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .comment-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #eaeaea;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 5px;
+  width: 100%;
 }
 
-.comment-header h2,
-.comment-header h4,
-.comment-header h5 {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  margin: 0;
+.comment-header mat-card-title {
+  color: black;
 }
 
-.comment-header span {
-  font-size: 14px;
-  color: #666;
-}
-
-.comment-container p {
-  font-size: 14px;
-  line-height: 1.5;
+.comment-header mat-card-subtitle {
   color: #555;
-  margin: 5px 0;
+  font-size: 0.875rem;
+  text-align: right;
 }
 
-.replies-section {
-  margin-top: 15px;
-  padding-left: 15px;
-  border-left: 2px solid #ccc;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.sub-replies-section {
-  margin-top: 10px;
-  padding-left: 15px;
+.replies {
+  margin-left: 16px;
   border-left: 2px solid #ddd;
-  background-color: #f7f7f7;
-  border-radius: 5px;
-  padding: 10px;
+  padding-left: 8px;
+}
+
+.reply-container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.reply-line {
+  width: 2px;
+  background: #ddd;
+  height: 100%;
+  position: absolute;
+  left: -8px;
 }

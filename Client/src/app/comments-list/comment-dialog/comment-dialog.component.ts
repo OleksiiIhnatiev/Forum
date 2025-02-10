@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { CommentsService } from './../../../services/comments.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CommentsService } from '../../../services/comments.service';
 import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
@@ -24,7 +24,8 @@ export class CommentDialogComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CommentDialogComponent>,
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    @Inject(MAT_DIALOG_DATA) public data: { parentCommentId: string }
   ) {
     const decodedToken = this.getDecodedToken();
     this.commentForm = this.fb.group({
@@ -80,7 +81,7 @@ export class CommentDialogComponent {
       const formData = {
         userId: this.getDecodedToken()?.sub || '',
         text: this.sanitizeHtml(this.commentForm.value.text),
-        parentCommentId: null,
+        parentCommentId: this.data.parentCommentId,
         imgFile: this.selectedFile,
       };
 

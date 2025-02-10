@@ -36,7 +36,9 @@ export class CommentsService {
     const formDataToSend = new FormData();
     formDataToSend.append('UserId', formData.userId);
     formDataToSend.append('Text', formData.text);
-    formDataToSend.append('ParentCommentId', formData.parentCommentId || '');
+    if (formData.parentCommentId) {
+      formDataToSend.append('ParentCommentId', formData.parentCommentId);
+    }
     if (formData.imgFile) {
       formDataToSend.append('ImgFile', formData.imgFile, formData.imgFile.name);
     }

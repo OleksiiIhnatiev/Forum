@@ -1,31 +1,28 @@
-<section class="comment-detail">
-  <div *ngIf="isLoading" class="comment-loading">Loading...</div>
-
-  <div *ngIf="!isLoading && comment" class="comment-container">
-    <div class="comment-header">
-      <h2>{{ comment.userName }}</h2>
-      <span>{{ comment.createdAt | date : "short" }}</span>
-    </div>
-    <p>{{ comment.text }}</p>
-
-    <div *ngIf="comment.replies.length > 0" class="replies-section">
-      <div *ngFor="let reply of comment.replies" class="reply">
+<div *ngIf="isLoading" class="loading">Загрузка...</div>
+<div *ngIf="!isLoading && (rootComment || comment)" class="comment-container">
+  <div class="comment">
+    <mat-card class="comment-card">
+      <mat-card-header>
         <div class="comment-header">
-          <h4>{{ reply.userName }}</h4>
-          <span>{{ reply.createdAt | date : "short" }}</span>
+          <mat-card-title>{{ (rootComment || comment)?.userName }}</mat-card-title>
+          <mat-card-subtitle>{{ (rootComment || comment)?.createdAt }}</mat-card-subtitle>
         </div>
-        <p>{{ reply.text }}</p>
-
-        <div *ngIf="reply.replies.length > 0" class="sub-replies-section">
-          <div *ngFor="let subReply of reply.replies">
-            <div class="comment-header">
-              <h5>{{ subReply.userName }}</h5>
-              <span>{{ subReply.createdAt | date : "short" }}</span>
-            </div>
-            <p>{{ subReply.text }}</p>
-          </div>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ (rootComment || comment)?.text }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="addReplyToComment((rootComment || comment)?.id!)">Ответить</button>
+      </mat-card-actions>
+    </mat-card>
+    
+    <div *ngIf="(rootComment || comment)?.replies?.length > 0" class="replies">
+      <ng-container *ngFor="let reply of (rootComment || comment)?.replies">
+        <div class="reply-container">
+          <div class="reply-line"></div>
+          <app-comment-detail [comment]="reply"></app-comment-detail>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
-</section>
+</div>
