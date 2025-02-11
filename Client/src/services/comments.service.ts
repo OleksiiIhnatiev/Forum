@@ -8,6 +8,7 @@ export interface Comment {
   userName: string;
   text: string;
   createdAt: string;
+  imgLink?: string;
   email?: string | null;
   replies: Comment[];
 }
@@ -22,7 +23,7 @@ export interface CommentResponse {
   providedIn: 'root',
 })
 export class CommentsService {
-  private static readonly apiUrl = 'http://localhost:5124/api/Comments';
+  private static readonly apiUrl = 'http://localhost:3200/api/Comments';
   public commentsUpdatedSubject = new BehaviorSubject<boolean>(false);
 
   constructor(private httpClient: HttpClient) {}

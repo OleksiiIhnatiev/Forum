@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentsService, Comment } from '../../../services/comments.service';
 import { CommentDialogComponent } from '../comment-dialog/comment-dialog.component';
+import { ImageDialogComponent } from '../comment-detail/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-comment-detail',
@@ -75,5 +76,11 @@ export class CommentDetailComponent implements OnInit {
       ...comment,
       replies: comment.replies.map((reply) => this.buildNestedReplies(reply)),
     };
+  }
+  openImage(imageUrl: string): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imageUrl },
+      panelClass: 'custom-dialog-container',
+    });
   }
 }

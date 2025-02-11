@@ -3,45 +3,23 @@
   margin: 8px 0;
 }
 
-.comment-card {
-  padding: 10px;
-  margin-bottom: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.comment-image {
   width: 100%;
+  max-width: 150px;
+  height: auto;
+  margin-top: 8px;
+  transition: border 0.2s ease-in-out;
+  cursor: pointer;
 }
 
-.comment-header mat-card-title {
-  color: black;
+.comment-image:hover {
+  border: 3px solid red;
+}
+.custom-btn {
+  background-color: #f2650c;
+  color: white;
 }
 
-.comment-header mat-card-subtitle {
-  color: #555;
-  font-size: 0.875rem;
-  text-align: right;
-}
-
-.replies {
-  margin-left: 16px;
-  border-left: 2px solid #ddd;
-  padding-left: 8px;
-}
-
-.reply-container {
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-}
-
-.reply-line {
-  width: 2px;
-  background: #ddd;
-  height: 100%;
-  position: absolute;
-  left: -8px;
+.custom-btn:hover {
+  background-color: #d85409;
 }

@@ -13,7 +13,7 @@ import { ErrorDto } from '../app/dtos/error.dto';
 export class AuthService {
   public authStatusSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
 
-  private static readonly url = 'http://localhost:5124/api/Auth';
+  private static readonly url = 'http://localhost:3200/api/Auth';
   private tokenKey = 'authToken';
 
   constructor(private httpClient: HttpClient) {}

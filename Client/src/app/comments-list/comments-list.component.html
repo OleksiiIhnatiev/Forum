@@ -1,25 +1,56 @@
-<section class="comment-section">
-  <div class="comment-container">
-    <button class="add-comment-button" (click)="addMainComment()">
-      + Create
-    </button>
+<section class="container py-5">
+  <div class="card shadow-xl rounded-5 p-4 bg-light">
+    <!-- Create Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <button
+        class="btn btn-gradient-orange rounded-pill px-4 py-2"
+        (click)="addMainComment()"
+      >
+        <i class="bi bi-plus-circle"></i> Create
+      </button>
+      <h2 class="mb-0 text-orange">Comments</h2>
+    </div>
 
-    <h2 class="comment-title">Comments</h2>
-
-    <div *ngIf="isLoading" class="comment-loading">Loading...</div>
+    <div
+      *ngIf="isLoading"
+      class="alert alert-info text-center rounded-pill py-3 mb-4"
+    >
+      <strong>Loading...</strong>
+    </div>
 
     <div *ngIf="!isLoading">
-      <table class="comment-table">
-        <thead>
+      <table
+        class="table table-hover table-bordered shadow-sm rounded-4 overflow-hidden"
+      >
+        <thead class="bg-gradient-light">
           <tr>
-            <th (click)="changeSort('userName')">User Name</th>
-            <th (click)="changeSort('email')">E-mail</th>
-            <th (click)="changeSort('createdAt')">Date Added</th>
-            <th>Comment Text</th>
+            <th
+              class="cursor-pointer text-orange"
+              (click)="changeSort('userName')"
+            >
+              User Name
+            </th>
+            <th
+              class="cursor-pointer text-orange"
+              (click)="changeSort('email')"
+            >
+              E-mail
+            </th>
+            <th
+              class="cursor-pointer text-orange"
+              (click)="changeSort('createdAt')"
+            >
+              Date Added
+            </th>
+            <th class="text-orange">Comment Text</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let comment of comments" (click)="onRowClick(comment)">
+        <tbody class="text-muted">
+          <tr
+            *ngFor="let comment of comments"
+            (click)="onRowClick(comment)"
+            class="cursor-pointer hover:bg-light rounded-3"
+          >
             <td>{{ comment.userName }}</td>
             <td>{{ comment.email }}</td>
             <td>{{ comment.createdAt | date : "short" }}</td>
@@ -29,19 +60,19 @@
       </table>
     </div>
 
-    <div class="comment-pagination">
+    <div class="d-flex justify-content-between mt-5">
       <button
-        class="comment-button"
+        class="btn btn-outline-orange rounded-pill px-4 py-2"
         (click)="currentPage = currentPage - 1; loadComments()"
         [disabled]="currentPage === 1"
       >
-        Previous
+        <i class="bi bi-chevron-left"></i> Previous
       </button>
       <button
-        class="comment-button"
+        class="btn btn-outline-orange rounded-pill px-4 py-2"
         (click)="currentPage = currentPage + 1; loadComments()"
       >
-        Next
+        Next <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </div>

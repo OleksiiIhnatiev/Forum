@@ -3,6 +3,7 @@ using Forum.Api;
 using Forum.Infrastructure;
 using Forum.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<ForumContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+app.UseStaticFiles();
 
 app.ConfigureWebApi();
 

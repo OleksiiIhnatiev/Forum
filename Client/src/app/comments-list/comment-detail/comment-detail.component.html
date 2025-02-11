@@ -1,28 +1,49 @@
-<div *ngIf="isLoading" class="loading">Загрузка...</div>
 <div *ngIf="!isLoading && (rootComment || comment)" class="comment-container">
-  <div class="comment">
-    <mat-card class="comment-card">
-      <mat-card-header>
-        <div class="comment-header">
-          <mat-card-title>{{ (rootComment || comment)?.userName }}</mat-card-title>
-          <mat-card-subtitle>{{ (rootComment || comment)?.createdAt }}</mat-card-subtitle>
-        </div>
-      </mat-card-header>
-      <mat-card-content>
-        <p>{{ (rootComment || comment)?.text }}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="addReplyToComment((rootComment || comment)?.id!)">Ответить</button>
-      </mat-card-actions>
-    </mat-card>
-    
-    <div *ngIf="(rootComment || comment)?.replies?.length > 0" class="replies">
-      <ng-container *ngFor="let reply of (rootComment || comment)?.replies">
-        <div class="reply-container">
-          <div class="reply-line"></div>
-          <app-comment-detail [comment]="reply"></app-comment-detail>
-        </div>
-      </ng-container>
+  <div class="comment p-3 mb-3">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="fw-bold">
+        {{ (rootComment || comment)?.userName }} ・
+        <span class="text-muted small">{{
+          (rootComment || comment)?.createdAt
+        }}</span>
+      </div>
     </div>
+    <div class="mt-2">
+      <p>{{ (rootComment || comment)?.text }}</p>
+      <div *ngIf="(rootComment || comment)?.imgLink">
+        <img
+          [src]="'http://localhost:3200/' + (rootComment || comment)?.imgLink"
+          alt="Comment image"
+          class="comment-image rounded mb-2 cursor-pointer"
+          (click)="
+            openImage(
+              'http://localhost:3200/' + (rootComment || comment)?.imgLink
+            )
+          "
+        />
+      </div>
+    </div>
+    <div class="mt-2">
+      <button
+        class="btn custom-btn"
+        (click)="addReplyToComment((rootComment || comment)?.id!)"
+      >
+        Reply
+      </button>
+    </div>
+  </div>
+  <div
+    *ngIf="(rootComment || comment)?.replies?.length > 0"
+    class="ms-3 border-start border-secondary ps-2"
+  >
+    <ng-container *ngFor="let reply of (rootComment || comment)?.replies">
+      <div class="d-flex align-items-start position-relative">
+        <div
+          class="position-absolute"
+          style="left: -8px; width: 2px; background: #ddd; height: 100%"
+        ></div>
+        <app-comment-detail [comment]="reply"></app-comment-detail>
+      </div>
+    </ng-container>
   </div>
 </div>

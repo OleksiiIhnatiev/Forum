@@ -24,5 +24,4 @@
     <ProjectReference Include="..\Forum.Application\Forum.Application.csproj" />
     <ProjectReference Include="..\Forum.Infrastructure\Forum.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

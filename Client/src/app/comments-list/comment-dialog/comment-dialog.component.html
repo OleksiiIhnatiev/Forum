@@ -1,49 +1,70 @@
-<h2 mat-dialog-title class="dialog-title">Add Comment</h2>
+<h2 mat-dialog-title class="modal-title">Add Comment</h2>
 
-<mat-dialog-content class="dialog-content">
-  <form [formGroup]="commentForm" class="comment-form">
-    <mat-form-field appearance="outline">
-      <mat-label>User Name</mat-label>
-      <input matInput formControlName="userName" readonly />
-    </mat-form-field>
+<mat-dialog-content class="modal-body">
+  <form [formGroup]="commentForm">
+    <div class="mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>User Name</mat-label>
+        <input matInput formControlName="userName" readonly />
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" readonly />
-    </mat-form-field>
+    <div class="mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" readonly />
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Home Page</mat-label>
-      <input matInput formControlName="homePage" />
-    </mat-form-field>
+    <div class="mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Home Page</mat-label>
+        <input matInput formControlName="homePage" />
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>CAPTCHA</mat-label>
-      <input matInput formControlName="captcha" required />
-    </mat-form-field>
+    <div class="mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>CAPTCHA</mat-label>
+        <input matInput formControlName="captcha" required />
+      </mat-form-field>
+    </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Text</mat-label>
-      <textarea matInput formControlName="text" required></textarea>
-    </mat-form-field>
+    <div class="mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Text</mat-label>
+        <textarea matInput formControlName="text" required></textarea>
+      </mat-form-field>
+    </div>
 
-    <div class="file-upload">
-      <label class="custom-file-upload">
-        <input type="file" (change)="onFileSelected($event)" />
+    <div class="mb-3">
+      <label class="form-label">
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          class="form-control"
+        />
         <span>📁 Choose File</span>
       </label>
-      <div *ngIf="previewImage" class="preview-container">
-        <img [src]="previewImage" class="preview-image" />
+      <div *ngIf="previewImage" class="mt-3">
+        <img [src]="previewImage" class="img-fluid" />
       </div>
     </div>
   </form>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="dialog-actions">
-  <button mat-stroked-button color="warn" (click)="onCancel()">Cancel</button>
+<mat-dialog-actions class="modal-footer" align="end">
+  <button
+    mat-stroked-button
+    color="warn"
+    class="btn btn-outline-secondary custom-btn"
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
   <button
     mat-flat-button
-    color="primary"
+    class="btn btn-primary custom-submit-button"
     [disabled]="!commentForm.valid"
     (click)="onSubmit()"
   >
@@ -51,9 +72,4 @@
   </button>
 </mat-dialog-actions>
 
-<!-- Добавьте сюда элемент для отображения обработанного текста -->
-<div
-  class="processed-text"
-  *ngIf="sanitizedText"
-  [innerHTML]="sanitizedText"
-></div>
+<div *ngIf="sanitizedText" [innerHTML]="sanitizedText"></div>
