@@ -1,6 +1,5 @@
 <section class="container py-5">
   <div class="card shadow-xl rounded-5 p-4 bg-light">
-    <!-- Create Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <button
         class="btn btn-gradient-orange rounded-pill px-4 py-2"
@@ -29,18 +28,33 @@
               (click)="changeSort('userName')"
             >
               User Name
+              <i
+                *ngIf="sortBy === 'userName'"
+                class="bi"
+                [ngClass]="order === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down'"
+              ></i>
             </th>
             <th
               class="cursor-pointer text-orange"
               (click)="changeSort('email')"
             >
               E-mail
+              <i
+                *ngIf="sortBy === 'email'"
+                class="bi"
+                [ngClass]="order === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down'"
+              ></i>
             </th>
             <th
               class="cursor-pointer text-orange"
               (click)="changeSort('createdAt')"
             >
               Date Added
+              <i
+                *ngIf="sortBy === 'createdAt'"
+                class="bi"
+                [ngClass]="order === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down'"
+              ></i>
             </th>
             <th class="text-orange">Comment Text</th>
           </tr>

@@ -9,7 +9,6 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
-  styleUrls: ['./comments-list.component.css'],
 })
 export class CommentsListComponent implements OnInit {
   comments: Comment[] = [];
@@ -37,6 +36,7 @@ export class CommentsListComponent implements OnInit {
       .pipe(
         tap((data) => {
           this.comments = data.filter((comment) => !comment.replies);
+          this.sortComments();
           this.isLoading = false;
         }),
         catchError(() => {
@@ -51,7 +51,18 @@ export class CommentsListComponent implements OnInit {
   changeSort(field: string): void {
     this.sortBy = field;
     this.order = this.order === 'asc' ? 'desc' : 'asc';
-    this.loadComments();
+    this.sortComments(); // Сортировка при изменении поля
+  }
+
+  sortComments(): void {
+    this.comments.sort((a, b) => {
+      if (a[this.sortBy] < b[this.sortBy]) {
+        return this.order === 'asc' ? -1 : 1;
+      } else if (a[this.sortBy] > b[this.sortBy]) {
+        return this.order === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
   }
 
   onRowClick(comment: Comment): void {

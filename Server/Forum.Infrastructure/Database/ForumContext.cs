@@ -22,7 +22,7 @@ public class ForumContext(DbContextOptions<ForumContext> options) : IdentityDbCo
             .HasOne(c => c.ParentComment)
             .WithMany(c => c.Replies)
             .HasForeignKey(c => c.ParentCommentId)
-            .OnDelete(DeleteBehavior.Restrict); // Или можно использовать DeleteBehavior.SetNull
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 }

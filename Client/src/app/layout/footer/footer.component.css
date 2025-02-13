@@ -1,7 +1,0 @@
-.footer {
-  /* todo ai move every color declaration in css to Client\src\app\style folder at styles.css file as a constants and use them everywhere */
-  color: white;
-  background-size: cover;
-  background-attachment: fixed;
-  position: relative;
-}

@@ -1,6 +1,9 @@
-.comment-container {
-  color: black;
-  margin: 8px 0;
+.img-fluid {
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .comment-image {
@@ -14,12 +17,4 @@
 
 .comment-image:hover {
   border: 3px solid red;
-}
-.custom-btn {
-  background-color: #f2650c;
-  color: white;
-}
-
-.custom-btn:hover {
-  background-color: #d85409;
 }

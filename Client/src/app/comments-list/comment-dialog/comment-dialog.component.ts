@@ -13,7 +13,6 @@ interface DecodedToken {
 @Component({
   selector: 'app-comment-dialog',
   templateUrl: './comment-dialog.component.html',
-  styleUrls: ['./comment-dialog.component.css'],
 })
 export class CommentDialogComponent {
   commentForm: FormGroup;
@@ -81,18 +80,19 @@ export class CommentDialogComponent {
       const formData = {
         userId: this.getDecodedToken()?.sub || '',
         text: this.sanitizeHtml(this.commentForm.value.text),
-        parentCommentId: this.data.parentCommentId,
+        parentCommentId: this.data?.parentCommentId ?? null,
         imgFile: this.selectedFile,
       };
-
+  
       this.sanitizedText = this.sanitizeHtml(this.commentForm.value.text);
-
+  
       this.commentsService.addComment(formData).subscribe({
         next: () => this.dialogRef.close(),
         error: () => console.error('Error submitting comment'),
       });
     }
   }
+  
 
   onCancel(): void {
     this.dialogRef.close();

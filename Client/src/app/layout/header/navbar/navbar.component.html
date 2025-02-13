@@ -20,8 +20,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-      <!-- todo ai we don't want to use any of list tags in our project. we want to have the full control of tags we use and we don't bother with semantic features. it is better to have more plain tags. use div/span instead of ul, ol, li etc everywhere -->
-      <!-- todo ai use *ngFor for this case. move the whole logic of links in a separate service -->
+
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" href="#">HOME</a>
@@ -30,13 +29,13 @@
           <a class="nav-link" href="#about">ABOUT</a>
         </li>
         <li class="nav-item login">
-          <button *ngIf="!isLoggedIn" class="btn-purple me-2" (click)="login()">
+          <button *ngIf="!isLoggedIn" class="btn-orange me-2" (click)="login()">
             Login
           </button>
-          <button *ngIf="!isLoggedIn" class="btn-purple" (click)="register()">
+          <button *ngIf="!isLoggedIn" class="btn-orange" (click)="register()">
             Register
           </button>
-          <button *ngIf="isLoggedIn" class="btn-purple" (click)="logout()">
+          <button *ngIf="isLoggedIn" class="btn-orange" (click)="logout()">
             Logout
           </button>
         </li>
@@ -44,3 +43,5 @@
     </div>
   </div>
 </nav>
+      <!-- todo ai we don't want to use any of list tags in our project. we want to have the full control of tags we use and we don't bother with semantic features. it is better to have more plain tags. use div/span instead of ul, ol, li etc everywhere -->
+      <!-- todo ai use *ngFor for this case. move the whole logic of links in a separate service -->

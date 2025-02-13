@@ -15,7 +15,6 @@ import { RegistrationComponent } from '../../registration/registration.component
 @Component({
   selector: 'pn-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css'],
   animations: [
     // todo ai this looks like a strange thing that not meant to be at ts. this is a good approach to have a much of logic in typescript as possible, but it's not related to css things. as usual it is better to have it in css file. in this case we want to have this solution to work via css file
     trigger('backgroundStateTrigger', [

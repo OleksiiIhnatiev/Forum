@@ -8,7 +8,6 @@ import { ImageDialogComponent } from '../comment-detail/image-dialog/image-dialo
 @Component({
   selector: 'app-comment-detail',
   templateUrl: './comment-detail.component.html',
-  styleUrls: ['./comment-detail.component.css'],
 })
 export class CommentDetailComponent implements OnInit {
   @Input() comment: Comment | null = null;

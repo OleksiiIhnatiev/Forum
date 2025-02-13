@@ -1,0 +1,20 @@
+.comment-container {
+  color: black;
+  margin: 0px 0;
+  background-color: #ffffff;
+}
+
+.comment {
+  padding: 12px;
+  background-color: #ffffff;
+}
+
+.comment-image {
+  max-width: 150px;
+  height: auto;
+  margin-top: 8px;
+}
+
+.comment-image:hover {
+  border: 3px solid red;
+}
