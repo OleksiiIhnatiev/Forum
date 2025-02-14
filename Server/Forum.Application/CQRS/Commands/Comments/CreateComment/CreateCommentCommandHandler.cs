@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Forum.Application.CQRS.Commands.Comments.CreateComment;
 
-public class CreateCommentCommandHandler(ICommentRepository repository, IMapper mapper)
+public class CreateCommentCommandHandler(ICommentRepository commentRepository, IMapper mapper)
     : IRequestHandler<CreateCommentCommand>
 {
     public async Task Handle(CreateCommentCommand request, CancellationToken cancellationToken)
@@ -39,6 +39,11 @@ public class CreateCommentCommandHandler(ICommentRepository repository, IMapper 
             comment.ImgLink = imageLink;
         }
 
-        await repository.CreateAsync(comment, cancellationToken);
+        if (!string.IsNullOrEmpty(request.HomePage))
+        {
+            comment.HomePage = request.HomePage;
+        }
+
+        await commentRepository.CreateAsync(comment, cancellationToken);
     }
 }

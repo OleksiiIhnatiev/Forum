@@ -3,7 +3,6 @@ using Forum.Api;
 using Forum.Infrastructure;
 using Forum.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

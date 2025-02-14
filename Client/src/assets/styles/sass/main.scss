@@ -1,14 +1,16 @@
-@import "./components/buttons";
 @import "./abstracts/placeholders.scss";
+
 @import "base/typography";
-@import "layout/modal";
-@import "layout/pagination";
-@import "layout/cards";
+
 @import "components/buttons";
 @import "components/images";
+@import "components/motto";
+
 @import "pages/comments";
 @import "pages/comments-table";
+
+@import "layout/pagination";
+@import "layout/cards";
 @import "layout/navigation";
 @import "layout/header";
-@import "components/motto";
 @import "layout/footer";

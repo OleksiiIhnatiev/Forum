@@ -12,14 +12,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-section {
-  padding-bottom: 15% !important;
-}
-
 .primary-section {
-  padding: 50px;
   border-bottom: 1px solid rgb(150, 150, 150);
   border-top: 1px solid rgb(150, 150, 150);
+  // padding-bottom: 15% !important;
 }
 
 .primary-section img {
@@ -27,19 +23,10 @@ section {
 }
 
 .subtitle {
-  padding-top: 2%;
-  padding-bottom: 4%;
-  text-align: center;
   font-size: 32px;
   letter-spacing: 0.32rem;
   color: #ff4500;
   font-family: Panton-Bold;
-}
-
-.card-footer img {
-  margin-bottom: var(--main-image-margin);
-  height: 48px;
-  width: 48px;
 }
 
 .description {
@@ -52,13 +39,4 @@ section {
   max-width: 500px;
   margin: 0px auto;
   padding: 30px;
-}
-
-input,
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10%;
-  border: 1px solid black;
-  border-radius: 8px;
 }

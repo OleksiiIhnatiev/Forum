@@ -23,6 +23,5 @@ public class ForumContext(DbContextOptions<ForumContext> options) : IdentityDbCo
             .WithMany(c => c.Replies)
             .HasForeignKey(c => c.ParentCommentId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 }

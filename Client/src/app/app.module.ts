@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MainComponent } from './main/main.component';
 import { CommentsListComponent } from './comments-list/comments-list.component';
-import { AboutComponent } from './about/about.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { NavbarComponent } from './layout/header/navbar/navbar.component';
@@ -37,7 +36,6 @@ import { CommentDialogComponent } from './comments-list/comment-dialog/comment-d
     CommentDetailComponent,
     MainComponent,
     CommentDialogComponent,
-    AboutComponent,
     CommentsListComponent,
     LoginComponent,
     RegistrationComponent,

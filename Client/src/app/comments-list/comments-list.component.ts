@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommentsService, Comment } from '../../services/comments.service';
+import { CommentsService } from '../../services/comments.service';
+import { CommentDto } from '../../app/dtos/comments/comment.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentDialogComponent } from '../comments-list/comment-dialog/comment-dialog.component';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { RegistrationComponent } from '../layout/registration/registration.component';
 
 @Component({
   selector: 'app-comments-list',
   templateUrl: './comments-list.component.html',
 })
 export class CommentsListComponent implements OnInit {
-  comments: Comment[] = [];
+  comments: CommentDto[] = [];
   currentPage = 1;
   sortBy = 'createdAt';
   order = 'desc';
@@ -21,10 +24,18 @@ export class CommentsListComponent implements OnInit {
   constructor(
     private commentsService: CommentsService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.commentsService.commentsUpdatedSubject.subscribe((updated) => {
+      if (updated) {
+        this.loadComments();
+        this.commentsService.commentsUpdatedSubject.next(false);
+      }
+    });
+
     this.loadComments();
   }
 
@@ -51,7 +62,7 @@ export class CommentsListComponent implements OnInit {
   changeSort(field: string): void {
     this.sortBy = field;
     this.order = this.order === 'asc' ? 'desc' : 'asc';
-    this.sortComments(); // Сортировка при изменении поля
+    this.sortComments();
   }
 
   sortComments(): void {
@@ -65,11 +76,22 @@ export class CommentsListComponent implements OnInit {
     });
   }
 
-  onRowClick(comment: Comment): void {
+  onRowClick(comment: CommentDto): void {
     this.router.navigate(['/comment', comment.id]);
   }
 
   addMainComment(): void {
+    if (!this.authService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(RegistrationComponent, {});
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.router.navigate(['/']);
+        }
+      });
+      return;
+    }
+
     const dialogRef = this.dialog.open(CommentDialogComponent, {
       width: '700px',
       disableClose: true,
@@ -77,7 +99,7 @@ export class CommentsListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loadComments();
+        this.commentsService.addComment(result).subscribe();
       }
     });
   }

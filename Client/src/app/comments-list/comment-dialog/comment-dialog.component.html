@@ -1,75 +1,110 @@
-<h2 mat-dialog-title class="modal-title">Add Comment</h2>
+<h2 mat-dialog-title class="text-center mb-4">Add Comment</h2>
 
-<mat-dialog-content class="modal-body">
+<mat-dialog-content>
   <form [formGroup]="commentForm">
-    <div class="mb-3">
-      <mat-form-field class="w-100">
-        <mat-label>User Name</mat-label>
-        <input matInput formControlName="userName" readonly />
-      </mat-form-field>
+    <div class="row mb-3">
+      <div class="col-12">
+        <mat-form-field class="w-100">
+          <mat-label>User Name</mat-label>
+          <input
+            matInput
+            formControlName="userName"
+            readonly
+            class="form-control"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <mat-form-field class="w-100">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            readonly
+            class="form-control"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <mat-form-field class="w-100">
+          <mat-label>Home Page</mat-label>
+          <input matInput formControlName="homePage" class="form-control" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="mb-3 text-center">
+      <img
+        *ngIf="captchaImage$ | async as captchaImage"
+        [src]="captchaImage"
+        alt="CAPTCHA"
+        class="img-fluid"
+      />
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <mat-form-field class="w-100">
+          <mat-label>CAPTCHA</mat-label>
+          <div class="captcha-container"></div>
+          <input
+            matInput
+            formControlName="captcha"
+            required
+            class="form-control"
+          />
+          <div *ngIf="captchaInvalid">
+            <small class="text-danger"
+              >Captcha is incorrect. Please try again.</small
+            >
+          </div>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12">
+        <mat-form-field class="w-100">
+          <mat-label>Text</mat-label>
+          <textarea
+            matInput
+            formControlName="text"
+            required
+            class="form-control"
+          ></textarea>
+        </mat-form-field>
+      </div>
     </div>
 
     <div class="mb-3">
-      <mat-form-field class="w-100">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" readonly />
-      </mat-form-field>
-    </div>
-
-    <div class="mb-3">
-      <mat-form-field class="w-100">
-        <mat-label>Home Page</mat-label>
-        <input matInput formControlName="homePage" />
-      </mat-form-field>
-    </div>
-
-    <div class="mb-3">
-      <mat-form-field class="w-100">
-        <mat-label>CAPTCHA</mat-label>
-        <input matInput formControlName="captcha" required />
-      </mat-form-field>
-    </div>
-
-    <div class="mb-3">
-      <mat-form-field class="w-100">
-        <mat-label>Text</mat-label>
-        <textarea matInput formControlName="text" required></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">
+      <label>
         <input
           type="file"
           (change)="onFileSelected($event)"
           class="form-control"
         />
-        <span>📁 Choose File</span>
+        <span class="ml-2">📁 Choose File</span>
       </label>
-      <div *ngIf="previewImage" class="mt-3">
+      <div *ngIf="previewImage" class="mt-2">
         <img [src]="previewImage" class="img-fluid" />
       </div>
     </div>
   </form>
 </mat-dialog-content>
 
-<mat-dialog-actions class="modal-footer" align="end">
-  <button
-    mat-stroked-button
-    color="warn"
-    class="btn btn-outline-secondary custom-btn"
-    (click)="onCancel()"
-  >
-    Cancel
-  </button>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="onCancel()">Cancel</button>
   <button
     mat-flat-button
-    class="btn btn-primary custom-submit-button"
-    [disabled]="!commentForm.valid"
+    [disabled]="!commentForm.valid || captchaInvalid"
     (click)="onSubmit()"
   >
     Submit
   </button>
 </mat-dialog-actions>
-
-<div *ngIf="sanitizedText" [innerHTML]="sanitizedText"></div>

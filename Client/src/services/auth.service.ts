@@ -6,6 +6,8 @@ import { RegisterDto } from '../app/dtos/auth/register.dto';
 import { ResponseDto } from '../app/dtos/auth/response.dto';
 import { LoginDto } from '../app/dtos/auth/login.dto';
 import { ErrorDto } from '../app/dtos/error.dto';
+import { TokenDto } from '../app/dtos/token.dto';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +22,19 @@ export class AuthService {
 
   public isLoggedIn(): boolean {
     return !!localStorage.getItem(this.tokenKey);
+  }
+
+  public decodeToken(): TokenDto | null {
+    const token = localStorage.getItem(this.tokenKey);
+    if (token) {
+      try {
+        return jwtDecode<TokenDto>(token);
+      } catch (error) {
+        console.error('Ошибка декодирования токена:', error);
+        return null;
+      }
+    }
+    return null;
   }
 
   public register(registerDto: RegisterDto): Observable<void> {
