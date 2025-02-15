@@ -1,0 +1,60 @@
+// todo ai switch approach back to component styles
+.comment-container {
+  color: black;
+  // todo ai check everywhere why we need margin 0?
+  margin: 0;
+  background-color: #ffffff;
+  padding: 10px;
+}
+
+.comment {
+  // todo ai move common properties to html -> use bootstrap where it's possible
+  padding: 12px;
+  // todo ai create file with contstants and move there every constant on css like #ffffff
+  // todo ai find approach that use primary, secondary, warning, error, disabled or kind of that for colors. move all colors there 
+  background-color: #ffffff;
+}
+
+.comment-image {
+  max-width: 150px;
+  height: auto;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment-image:hover {
+  border: 3px solid red;
+}
+
+.comment-image-container,
+.comment-homepage .position-absolute,
+.replies .position-absolute {
+  left: -8px;
+  width: 2px;
+  background: #ddd;
+  height: auto;
+}
+
+.comment-header {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  flex: 1;
+  padding: 2px;
+}
+
+.comment-body {
+  margin-top: 2px;
+  border-left: 2px solid #ddd;
+  padding-left: 1rem;
+}
+
+.comment-footer {
+  margin-top: 2px;
+}
+
+.replies {
+  margin-left: 1rem;
+  padding-left: 0.5rem;
+}
