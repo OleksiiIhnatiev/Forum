@@ -1,5 +1,5 @@
 ﻿using Forum.Application.Interfaces.Repositories;
-using Forum.Domain.CommentAgregate;
+using Forum.Domain;
 using Forum.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,18 +12,23 @@ public class CommentRepository(ForumContext context) : ICommentRepository
         await context.Comments.AddAsync(comment, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
     }
-    public async Task<IReadOnlyList<Comment>> GetMainCommentsAsync(CancellationToken cancellationToken)
+
+    public async Task<IReadOnlyList<Comment>> GetMainCommentsAsync(
+        CancellationToken cancellationToken
+    )
     {
-        return await context.Comments
-            .Include(c => c.User)
+        return await context
+            .Comments.Include(c => c.User)
             .Where(c => c.ParentCommentId == null)
             .ToListAsync(cancellationToken);
     }
-    public async Task<Comment?> GetCommentWithRepliesAsync(Guid commentId, CancellationToken cancellationToken)
+
+    public async Task<Comment?> GetCommentWithRepliesAsync(
+        Guid commentId,
+        CancellationToken cancellationToken
+    )
     {
-        var comments = await context.Comments
-            .Include(c => c.User)
-            .ToListAsync(cancellationToken);
+        var comments = await context.Comments.Include(c => c.User).ToListAsync(cancellationToken);
 
         return BuildCommentTree(comments, commentId);
     }
@@ -31,13 +36,14 @@ public class CommentRepository(ForumContext context) : ICommentRepository
     private Comment? BuildCommentTree(List<Comment> comments, Guid parentId)
     {
         var root = comments.FirstOrDefault(c => c.Id == parentId);
-        if (root == null) return null;
+        if (root == null)
+            return null;
 
-        root.Replies = comments.Where(c => c.ParentCommentId == root.Id)
-                               .Select(c => BuildCommentTree(comments, c.Id))
-                               .Where(c => c != null)
-                               .ToList()!;
+        root.Replies = comments
+            .Where(c => c.ParentCommentId == root.Id)
+            .Select(c => BuildCommentTree(comments, c.Id))
+            .Where(c => c != null)
+            .ToList()!;
         return root;
     }
-
 }

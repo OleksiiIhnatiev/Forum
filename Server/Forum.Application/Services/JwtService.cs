@@ -1,8 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Forum.Application.AppSettings;
 using Forum.Application.Interfaces.Services;
-using Forum.Application.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,11 +14,11 @@ public class JwtService(IOptions<JwtOptions> jwtOptions) : IJwtService
     {
         var claims = new[]
         {
-        new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-        new Claim(JwtRegisteredClaimNames.Name, userName),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.Email, email)
-    };
+            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Name, userName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Email, email),
+        };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Value.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -28,7 +28,8 @@ public class JwtService(IOptions<JwtOptions> jwtOptions) : IJwtService
             audience: jwtOptions.Value.Audience,
             claims: claims,
             expires: DateTime.Now.AddDays(jwtOptions.Value.ExpireDays),
-            signingCredentials: creds);
+            signingCredentials: creds
+        );
 
         return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
     }

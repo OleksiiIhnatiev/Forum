@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Forum.Application.CQRS.Commands.Comments.CreateComment;
-using Forum.Application.CQRS.Dtos.Queries;
-using Forum.Domain.CommentAgregate;
+using Forum.Application.CQRS.Queries.Comments.GetCommentWithReplies;
+using Forum.Application.CQRS.Queries.Comments.GetMainComments;
+using Forum.Domain;
 
 namespace Forum.Infrastructure;
 
@@ -11,14 +12,11 @@ public class MappingProfile : Profile
     {
         CreateMap<CreateCommentCommand, Comment>();
 
-        CreateMap<Comment, GetMainCommentsDto>()
+        CreateMap<Comment, GetMainCommentsQueryDto>()
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
 
-        CreateMap<Comment, CommentWithRepliesDto>()
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
-            .ForMember(dest => dest.AvatarUrl, opt => opt.MapFrom(src => src.User.AvatarUrl))
-            .ForMember(dest => dest.ImgLink, opt => opt.MapFrom(src => src.ImgLink))
-            .ForMember(dest => dest.Replies, opt => opt.MapFrom(src => src.Replies));
+        CreateMap<Comment, GetCommentWithRepliesDto>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName));
     }
 }

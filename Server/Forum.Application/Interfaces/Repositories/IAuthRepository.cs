@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Forum.Domain.UserAggregate;
+﻿using Forum.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace Forum.Application.Interfaces.Repositories;
 

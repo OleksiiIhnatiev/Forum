@@ -1,6 +1,6 @@
-﻿using MediatR;
-using Forum.Application.CQRS.Dtos.Commands;
+﻿using Forum.Application.CQRS.Dtos.Commands;
+using MediatR;
 
 namespace Forum.Application.CQRS.Commands.Auth.Logout;
 
-public record LogoutCommand(string Token) : IRequest<AuthResponseDto>;
+public record LogoutCommand(string Token) : IRequest<ResponseDto>;

@@ -1,4 +1,4 @@
-﻿using Forum.Domain.CommentAgregate;
+﻿using Forum.Domain;
 
 namespace Forum.Application.Interfaces.Repositories;
 

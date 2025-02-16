@@ -1,54 +1,50 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using Forum.Application.CQRS.Dtos.Commands;
-using Forum.Domain.UserAggregate;
+using Forum.Domain;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Forum.Application.CQRS.Commands.Auth.Register;
 
-public class RegisterCommandHandler(UserManager<User> userManager) : IRequestHandler<RegisterCommand, AuthResponseDto>
+public class RegisterCommandHandler(
+    UserManager<User> userManager,
+    IValidator<RegisterCommand> validator
+) : IRequestHandler<RegisterCommand, ResponseDto>
 {
-    public async Task<AuthResponseDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseDto> Handle(
+        RegisterCommand command,
+        CancellationToken cancellationToken
+    )
     {
-        if (string.IsNullOrWhiteSpace(request.Email) || !request.Email.Contains("@"))
+        ValidationResult result = validator.Validate(command);
+        if (!result.IsValid)
         {
-            return CreateLoginResult(false, "The email provided is invalid");
+            foreach (var failure in result.Errors)
+            {
+                return new ResponseDto(
+                    false,
+                    $"Property {failure.PropertyName} failed validation. Error: {failure.ErrorMessage}"
+                );
+            }
         }
 
-        var existingUser = await userManager.FindByEmailAsync(request.Email);
+        var existingUser = await userManager.FindByEmailAsync(command.Email);
 
         if (existingUser != null)
         {
-            return CreateLoginResult(false, "A user with this email already exists");
+            return new ResponseDto(false, "A user with this email already exists");
         }
 
-        if (string.IsNullOrWhiteSpace(request.UserName))
-        {
-            return CreateLoginResult(false, "The username cannot be empty");
-        }
+        var user = new User { UserName = command.UserName, Email = command.Email };
 
-        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 6)
-        {
-            return CreateLoginResult(false, "The password must be at least 6 characters long");
-        }
-
-        var user = new User
-        {
-            UserName = request.UserName,
-            Email = request.Email
-        };
-
-        var createResult = await userManager.CreateAsync(user, request.Password);
+        var createResult = await userManager.CreateAsync(user, command.Password);
 
         if (!createResult.Succeeded)
         {
-            return CreateLoginResult(false, "User registration failed");
+            return new ResponseDto(false, "User registration failed");
         }
 
-        return CreateLoginResult(true);
-    }
-
-    private AuthResponseDto CreateLoginResult(bool success, string errorMessage = null, string token = null)
-    {
-        return new AuthResponseDto { IsSuccess = success, ErrorMessage = errorMessage, Token = token };
+        return new ResponseDto(true);
     }
 }

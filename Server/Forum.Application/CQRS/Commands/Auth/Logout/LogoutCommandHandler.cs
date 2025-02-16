@@ -1,25 +1,43 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using Forum.Application.CQRS.Dtos.Commands;
 using Forum.Application.Interfaces.Repositories;
+using MediatR;
 
 namespace Forum.Application.CQRS.Commands.Auth.Logout;
 
-public class LogoutCommandHandler(IAuthRepository authRepository) : IRequestHandler<LogoutCommand, AuthResponseDto>
+public class LogoutCommandHandler(
+    IAuthRepository authRepository,
+    IValidator<LogoutCommand> validator
+) : IRequestHandler<LogoutCommand, ResponseDto>
 {
-    public async Task<AuthResponseDto> Handle(LogoutCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseDto> Handle(
+        LogoutCommand command,
+        CancellationToken cancellationToken
+    )
     {
-        var isTokenRemoved = await authRepository.RemoveTokenAsync(request.Token, cancellationToken);
+        ValidationResult result = validator.Validate(command);
+        if (!result.IsValid)
+        {
+            foreach (var failure in result.Errors)
+            {
+                return new ResponseDto(
+                    false,
+                    $"Property {failure.PropertyName} failed validation. Error: {failure.ErrorMessage}"
+                );
+            }
+        }
+
+        var isTokenRemoved = await authRepository.RemoveTokenAsync(
+            command.Token,
+            cancellationToken
+        );
 
         if (!isTokenRemoved.Succeeded)
         {
-            return CreateLoginResult(false, "Logout failed");
+            return new ResponseDto(false, "Logout failed");
         }
 
-        return CreateLoginResult(true);
-    }
-
-    private AuthResponseDto CreateLoginResult(bool success, string errorMessage = null, string token = null)
-    {
-        return new AuthResponseDto { IsSuccess = success, ErrorMessage = errorMessage, Token = token };
+        return new ResponseDto(true);
     }
 }

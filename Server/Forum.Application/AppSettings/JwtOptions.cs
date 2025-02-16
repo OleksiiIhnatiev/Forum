@@ -1,4 +1,5 @@
-﻿namespace Forum.Application.Options;
+﻿namespace Forum.Application.AppSettings;
+
 public class JwtOptions
 {
     public string Key { get; set; }

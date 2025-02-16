@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Forum.Application.Interfaces.Repositories;
-using Forum.Domain.UserAggregate;
+﻿using Forum.Application.Interfaces.Repositories;
+using Forum.Domain;
 using Forum.Infrastructure.Database;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Forum.Infrastructure.Repositories;
 
@@ -13,9 +13,15 @@ public class AuthRepository(UserManager<User> userManager, ForumContext context)
         return await userManager.FindByEmailAsync(email);
     }
 
-    public async Task<IdentityResult> RemoveTokenAsync(string token, CancellationToken cancellationToken)
+    public async Task<IdentityResult> RemoveTokenAsync(
+        string token,
+        CancellationToken cancellationToken
+    )
     {
-        var userToken = await context.UserTokens.FirstOrDefaultAsync(z => z.Value == token, cancellationToken);
+        var userToken = await context.UserTokens.FirstOrDefaultAsync(
+            z => z.Value == token,
+            cancellationToken
+        );
 
         if (userToken == null)
         {

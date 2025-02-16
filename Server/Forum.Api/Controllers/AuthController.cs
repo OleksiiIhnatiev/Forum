@@ -10,7 +10,10 @@ namespace Forum.Api.Controllers;
 public class AuthController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<IActionResult> Register([FromBody] RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register(
+        [FromBody] RegisterCommand command,
+        CancellationToken cancellationToken
+    )
     {
         var result = await mediator.Send(command, cancellationToken);
 
@@ -23,7 +26,10 @@ public class AuthController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login([FromBody] LoginCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login(
+        [FromBody] LoginCommand command,
+        CancellationToken cancellationToken
+    )
     {
         var result = await mediator.Send(command, cancellationToken);
 
@@ -36,7 +42,10 @@ public class AuthController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Logout([FromBody] LogoutCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> Logout(
+        [FromBody] LogoutCommand command,
+        CancellationToken cancellationToken
+    )
     {
         var result = await mediator.Send(command, cancellationToken);
 

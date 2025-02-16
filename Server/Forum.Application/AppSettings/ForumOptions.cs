@@ -1,4 +1,5 @@
 ﻿namespace Forum.Application.Options;
+
 public class ForumOptions
 {
     public string ClientId { get; set; }

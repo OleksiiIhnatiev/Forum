@@ -6,18 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class CommentsController(IMediator mediator) : ControllerBase
 {
-    [HttpPost]
-    public async Task<IActionResult> PostComment([FromForm] CreateCommentCommand command, CancellationToken cancellationToken)
-    {
-        await mediator.Send(command, cancellationToken);
-        return Ok();
-    }
-
-    [HttpGet("main-comments")]
+    [HttpGet]
     public async Task<IActionResult> GetMainComments(CancellationToken cancellationToken)
     {
         var comments = await mediator.Send(new GetMainCommentsQuery(), cancellationToken);
@@ -25,9 +18,22 @@ public class CommentsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCommentWithReplies(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCommentWithReplies(
+        Guid id,
+        CancellationToken cancellationToken
+    )
     {
         var comment = await mediator.Send(new GetCommentWithRepliesQuery(id), cancellationToken);
-        return comment is not null ? Ok(comment) : NotFound();
+        return comment != null ? Ok(comment) : NotFound();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostComment(
+        [FromForm] CreateCommentCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+        await mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

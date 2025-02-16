@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using Forum.Application.Interfaces.Repositories;
-using Forum.Domain.CommentAgregate;
+using Forum.Application.Interfaces.Services;
+using Forum.Domain;
 using MediatR;
 
 namespace Forum.Application.CQRS.Commands.Comments.CreateComment;
 
-public class CreateCommentCommandHandler(ICommentRepository commentRepository, IMapper mapper)
-    : IRequestHandler<CreateCommentCommand>
+public class CreateCommentCommandHandler(
+    ICommentRepository commentRepository,
+    IMapper mapper,
+    IFileService fileService
+) : IRequestHandler<CreateCommentCommand>
 {
     public async Task Handle(CreateCommentCommand request, CancellationToken cancellationToken)
     {
@@ -14,22 +18,8 @@ public class CreateCommentCommandHandler(ICommentRepository commentRepository, I
 
         if (request.ImgFile != null && request.ImgFile.Length > 0)
         {
-            var fileName = $"{Guid.NewGuid()}_{request.ImgFile.FileName}";
             var imagesFolderPath = Path.Combine("wwwroot", "images");
-
-            if (!Directory.Exists(imagesFolderPath))
-            {
-                Directory.CreateDirectory(imagesFolderPath);
-            }
-
-            var filePath = Path.Combine(imagesFolderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await request.ImgFile.CopyToAsync(stream);
-            }
-
-            imageLink = Path.Combine("images", fileName).Replace("\\", "/");
+            imageLink = await fileService.SaveFileAsync(request.ImgFile, imagesFolderPath);
         }
 
         var comment = mapper.Map<Comment>(request);

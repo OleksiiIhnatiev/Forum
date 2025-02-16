@@ -1,4 +1,6 @@
-﻿namespace Forum.Application.Options;
+﻿using Forum.Application.Options;
+
+namespace Forum.Application.AppSettings;
 
 public class AuthenticationOptions
 {

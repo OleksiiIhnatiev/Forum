@@ -14,15 +14,14 @@ namespace Forum.Infrastructure.Migrations
                 name: "ImgLink",
                 table: "Comments",
                 type: "nvarchar(max)",
-                nullable: true);
+                nullable: true
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "ImgLink",
-                table: "Comments");
+            migrationBuilder.DropColumn(name: "ImgLink", table: "Comments");
         }
     }
 }
