@@ -10,7 +10,7 @@ public class Comment
     public Guid UserId { get; set; }
     public User User { get; set; }
     public string? HomePage { get; set; }
-    public string? ImgLink { get; set; }
+    public string? FileLink { get; set; }
 
     public Guid? ParentCommentId { get; set; }
     public Comment? ParentComment { get; set; }

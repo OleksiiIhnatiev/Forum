@@ -20,6 +20,8 @@ public class FileService : IFileService
             await file.CopyToAsync(stream);
         }
 
-        return Path.Combine("images", fileName).Replace("\\", "/");
+        var relativePath = fullPath.Replace("\\", "/").Replace("wwwroot/", "");
+
+        return relativePath;
     }
 }

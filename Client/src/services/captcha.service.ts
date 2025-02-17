@@ -5,18 +5,18 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class CaptchaService {
-  currentCaptchaText: string = '';
+  public currentCaptchaText: string = '';
 
-  generateCaptcha(): string {
+  public generateCaptcha(): string {
     const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     this.currentCaptchaText = Array.from({ length: 6 }, () =>
       characters.charAt(Math.floor(Math.random() * characters.length))
     ).join('');
     return this.currentCaptchaText;
   }
 
-  generateCaptchaImage$(): Observable<string> {
+  public generateCaptchaImage$(): Observable<string> {
     return of(this.createCaptchaImage(this.generateCaptcha()));
   }
 

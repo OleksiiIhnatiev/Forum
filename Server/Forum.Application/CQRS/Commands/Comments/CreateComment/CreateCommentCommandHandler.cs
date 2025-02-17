@@ -14,19 +14,38 @@ public class CreateCommentCommandHandler(
 {
     public async Task Handle(CreateCommentCommand request, CancellationToken cancellationToken)
     {
-        string? imageLink = null;
+        string? fileLink = null;
 
-        if (request.ImgFile != null && request.ImgFile.Length > 0)
+        if (request.MessageFile != null && request.MessageFile.Length > 0)
         {
-            var imagesFolderPath = Path.Combine("wwwroot", "images");
-            imageLink = await fileService.SaveFileAsync(request.ImgFile, imagesFolderPath);
+            var fileExtension = Path.GetExtension(request.MessageFile.FileName).ToLower();
+            string folderPath = string.Empty;
+
+            if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png")
+            {
+                folderPath = Path.Combine("wwwroot", "images");
+            }
+            else if (fileExtension == ".gif")
+            {
+                folderPath = Path.Combine("wwwroot", "gifs");
+            }
+            else if (fileExtension == ".txt")
+            {
+                folderPath = Path.Combine("wwwroot", "texts");
+            }
+
+            if (!string.IsNullOrEmpty(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                fileLink = await fileService.SaveFileAsync(request.MessageFile, folderPath);
+            }
         }
 
         var comment = mapper.Map<Comment>(request);
 
-        if (!string.IsNullOrEmpty(imageLink))
+        if (!string.IsNullOrEmpty(fileLink))
         {
-            comment.ImgLink = imageLink;
+            comment.FileLink = fileLink;
         }
 
         if (!string.IsNullOrEmpty(request.HomePage))

@@ -1,0 +1,30 @@
+.btn-outline-orange {
+  border-color: #f2650c;
+  color: #f2650c;
+}
+
+.btn-outline-orange:hover {
+  background-color: #f2650c;
+  color: white;
+}
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  cursor: pointer;
+  color: #f2650c;
+}
+
+.table-hover tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.bg-gradient-light {
+  background: #f8f9fa;
+}

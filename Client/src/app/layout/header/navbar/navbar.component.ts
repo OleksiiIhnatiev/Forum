@@ -2,13 +2,14 @@ import { DOCUMENT } from '@angular/common';
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../../login/login.component';
-import { RegistrationComponent } from '../../registration/registration.component';
+import { LoginComponent } from '../../../components/login/login.component';
+import { RegistrationComponent } from '../../../components/registration/registration.component';
 import { NavService } from '../../../../services/nav.service';
 
 @Component({
-  selector: 'pn-navbar',
+  selector: 'app-navbar',
   templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   public isScrolled = false;

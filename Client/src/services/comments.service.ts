@@ -1,70 +1,62 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { CommentDto } from '../app/dtos/comments/comment.dto';
-import { CommentResponseDto } from '../app/dtos/comments/response.dto';
-import { ErrorDto } from '../app/dtos/error.dto';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { HttpService } from './http.service';
+import { IComment } from '../app/interfaces/comment.interface';
+import { ICommentResponse } from '../app/interfaces/response.interface';
+import { ErrorHandlingService } from './error-handling.service';
+import { IPostCommentFormData } from '../app/interfaces/post-comment-form-data.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsService {
-  private static readonly apiUrl = 'http://localhost:3200/api/Comments';
   public commentsUpdatedSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpService: HttpService,
+    private errorHandlingService: ErrorHandlingService
+  ) {}
 
-  public addComment(formData: {
-    userId: string;
-    text: string;
-    parentCommentId?: string;
-    homePage?: string;
-    imgFile?: File;
-  }): Observable<CommentResponseDto> {
+  public postComment(
+    formData: IPostCommentFormData
+  ): Observable<ICommentResponse> {
     const formDataToSend = new FormData();
     formDataToSend.append('UserId', formData.userId);
     formDataToSend.append('Text', formData.text);
+
     if (formData.parentCommentId) {
       formDataToSend.append('ParentCommentId', formData.parentCommentId);
     }
     if (formData.homePage) {
       formDataToSend.append('HomePage', formData.homePage);
     }
-    if (formData.imgFile) {
-      formDataToSend.append('ImgFile', formData.imgFile, formData.imgFile.name);
+    if (formData.messageFile) {
+      formDataToSend.append(
+        'MessageFile',
+        formData.messageFile,
+        formData.messageFile.name
+      );
     }
 
-    return this.httpClient
-      .post<CommentResponseDto>(`${CommentsService.apiUrl}`, formDataToSend)
+    return this.httpService
+      .post<ICommentResponse>('Comments', 'PostComment', formDataToSend)
       .pipe(
         tap(() => {
           this.commentsUpdatedSubject.next(true);
         }),
-        this.handleError<CommentResponseDto>()
+        this.errorHandlingService.handleError<ICommentResponse>()
       );
   }
-
-  public getMainComments(
-    page: number,
-    sortBy: string,
-    order: string
-  ): Observable<CommentDto[]> {
-    return this.httpClient
-      .get<CommentDto[]>(
-        `${CommentsService.apiUrl}/main-comments?page=${page}&sortBy=${sortBy}&order=${order}`
-      )
-      .pipe(this.handleError<CommentDto[]>());
+  public getMainComments(): Observable<IComment[]> {
+    return this.httpService
+      .get<IComment[]>('Comments', 'GetMainComments', '')
+      .pipe(this.errorHandlingService.handleError<IComment[]>());
   }
 
-  public getCommentById(id: string): Observable<CommentDto> {
-    return this.httpClient
-      .get<CommentDto>(`${CommentsService.apiUrl}/${id}`)
-      .pipe(this.handleError<CommentDto>());
-  }
-
-  private handleError<T>(): (source: Observable<T>) => Observable<T> {
-    return (source: Observable<T>) =>
-      source.pipe(catchError((error: ErrorDto) => throwError(() => error)));
+  public getCommentWithReplies(id: string): Observable<IComment> {
+    return this.httpService
+      .get<IComment>('Comments', `GetCommentWithReplies/${id}`, '')
+      .pipe(this.errorHandlingService.handleError<IComment>());
   }
 }

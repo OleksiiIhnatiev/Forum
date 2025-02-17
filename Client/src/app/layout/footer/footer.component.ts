@@ -1,8 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'pn-footer',
+  selector: 'app-footer',
   templateUrl: './footer.component.html',
   encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {}

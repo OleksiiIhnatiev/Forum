@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
-
-interface NavLink {
-  label: string;
-  href: string;
-}
+import { INavLink } from '../app/interfaces/nav-link.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavService {
-  private navLinks: NavLink[] = [
+  private navLinks: INavLink[] = [
     { label: 'HOME', href: '#' },
     { label: 'ABOUT', href: '#about' },
   ];
 
-  getNavLinks(): NavLink[] {
+  public getNavLinks(): INavLink[] {
     return this.navLinks;
   }
 }

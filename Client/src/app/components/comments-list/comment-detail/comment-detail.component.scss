@@ -1,0 +1,24 @@
+.comment-image {
+  max-width: 150px;
+  height: auto;
+  margin-top: 8px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment-image:hover {
+  border: 3px solid red;
+}
+
+.comment-header {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  flex: 1;
+  padding: 2px;
+}
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: blue;
+}

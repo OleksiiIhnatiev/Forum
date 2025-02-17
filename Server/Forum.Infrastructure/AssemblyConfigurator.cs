@@ -55,7 +55,7 @@ public static class AssemblyConfigurator
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        return services.AddScoped<IJwtService, JwtService>();
+        return services.AddScoped<IFileService, FileService>().AddScoped<IJwtService, JwtService>();
     }
 
     private static IServiceCollection AddValidators(this IServiceCollection services)

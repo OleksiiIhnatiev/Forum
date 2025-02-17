@@ -7,6 +7,6 @@ public record CreateCommentCommand(
     Guid UserId,
     string Text,
     Guid? ParentCommentId,
-    IFormFile? ImgFile,
+    IFormFile? MessageFile,
     string? HomePage
 ) : IRequest;

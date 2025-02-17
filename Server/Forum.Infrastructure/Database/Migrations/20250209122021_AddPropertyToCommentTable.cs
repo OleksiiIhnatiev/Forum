@@ -11,7 +11,7 @@ namespace Forum.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ImgLink",
+                name: "FileLink",
                 table: "Comments",
                 type: "nvarchar(max)",
                 nullable: true
@@ -21,7 +21,7 @@ namespace Forum.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(name: "ImgLink", table: "Comments");
+            migrationBuilder.DropColumn(name: "FileLink", table: "Comments");
         }
     }
 }

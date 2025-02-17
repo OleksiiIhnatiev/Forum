@@ -1,0 +1,74 @@
+<div *ngIf="!isLoading && (rootComment || comment)" class="comment-container">
+  <div class="comment p-2 mb-2">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="fw-bold p-2 comment-header">
+        {{ userName }} ・
+        <span class="text-muted small">{{ createdAt }}</span>
+      </div>
+    </div>
+    <div class="mt-2 border-start border-secondary ps-3 comment-body">
+      <div class="d-flex position-relative">
+        <div class="position-absolute"></div>
+        <p>{{ commentText }}</p>
+      </div>
+
+      <!-- Отображение картинки или файла для скачивания -->
+      <div *ngIf="fileLink">
+        <!-- Если файл - изображение -->
+        <div
+          *ngIf="fileLink.startsWith('images/')"
+          class="d-flex position-relative"
+        >
+          <div class="position-absolute"></div>
+          <img
+            [src]="imgSrc"
+            alt="Comment image"
+            class="comment-image rounded mb-2 cursor-pointer"
+            (click)="openImage(imgSrc)"
+          />
+        </div>
+
+        <div *ngIf="fileLink">
+          <div
+            *ngIf="fileLink.endsWith('.txt')"
+            class="d-flex position-relative"
+          >
+            <a
+              (click)="openTextFileDialog(fileLink)"
+              class="small cursor-pointer"
+            >
+              Download Text File
+            </a>
+          </div>
+        </div>
+
+        <div *ngIf="homePage" class="comment-homepage">
+          <div class="d-flex position-relative">
+            <div class="position-absolute"></div>
+            <p>
+              <a [href]="homePage" target="_blank">{{ homePage }}</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-2 comment-footer">
+          <button class="btn btn-orange" (click)="addReplyToComment(commentId)">
+            Reply
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="replies?.length > 0" class="ms-3 ps-2 replies">
+        <ng-container *ngFor="let reply of replies">
+          <div class="d-flex align-items-start position-relative w-100">
+            <div class="position-absolute"></div>
+            <app-comment-detail
+              [comment]="reply"
+              style="width: 100%"
+            ></app-comment-detail>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

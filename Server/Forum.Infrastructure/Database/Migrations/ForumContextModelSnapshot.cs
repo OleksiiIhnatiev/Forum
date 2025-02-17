@@ -22,7 +22,7 @@ namespace Forum.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Forum.Domain.CommentAgregate.Comment", b =>
+            modelBuilder.Entity("Forum.Domain.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,10 +31,10 @@ namespace Forum.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("HomePage")
+                    b.Property<string>("FileLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImgLink")
+                    b.Property<string>("HomePage")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ParentCommentId")
@@ -56,7 +56,7 @@ namespace Forum.Infrastructure.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Forum.Domain.UserAggregate.User", b =>
+            modelBuilder.Entity("Forum.Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,9 +64,6 @@ namespace Forum.Infrastructure.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("AvatarUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -256,14 +253,14 @@ namespace Forum.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Forum.Domain.CommentAgregate.Comment", b =>
+            modelBuilder.Entity("Forum.Domain.Comment", b =>
                 {
-                    b.HasOne("Forum.Domain.CommentAgregate.Comment", "ParentComment")
+                    b.HasOne("Forum.Domain.Comment", "ParentComment")
                         .WithMany("Replies")
                         .HasForeignKey("ParentCommentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Forum.Domain.UserAggregate.User", "User")
+                    b.HasOne("Forum.Domain.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -285,7 +282,7 @@ namespace Forum.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Forum.Domain.UserAggregate.User", null)
+                    b.HasOne("Forum.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -294,7 +291,7 @@ namespace Forum.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Forum.Domain.UserAggregate.User", null)
+                    b.HasOne("Forum.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -309,7 +306,7 @@ namespace Forum.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Forum.Domain.UserAggregate.User", null)
+                    b.HasOne("Forum.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -318,19 +315,19 @@ namespace Forum.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Forum.Domain.UserAggregate.User", null)
+                    b.HasOne("Forum.Domain.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Forum.Domain.CommentAgregate.Comment", b =>
+            modelBuilder.Entity("Forum.Domain.Comment", b =>
                 {
                     b.Navigation("Replies");
                 });
 
-            modelBuilder.Entity("Forum.Domain.UserAggregate.User", b =>
+            modelBuilder.Entity("Forum.Domain.User", b =>
                 {
                     b.Navigation("Comments");
                 });

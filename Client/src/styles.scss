@@ -1,6 +1,5 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
-@import "../src/assets/styles/sass/main.scss";
 
 html,
 body {
@@ -8,31 +7,41 @@ body {
 }
 
 body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.primary-section {
-  border-bottom: 1px solid rgb(150, 150, 150);
-  border-top: 1px solid rgb(150, 150, 150);
-  // padding-bottom: 15% !important;
+.btn-orange {
+  @extend .text-white;
+  @extend .border-0;
+  @extend .rounded-pill;
+  @extend .px-4;
+  @extend .py-2;
+
+  background-color: #f2650c;
+
+  &:hover {
+    background-color: #d7590b;
+  }
+
+  &:active {
+    background-color: #d7590b;
+  }
+}
+.motto {
+  margin-left: 40px;
+  color: darkgray;
+  padding-top: 10px;
 }
 
-.primary-section img {
-  max-height: 300px;
-}
-
-.subtitle {
-  font-size: 32px;
-  letter-spacing: 0.32rem;
+.motto-key {
+  font-weight: bold;
   color: #ff4500;
-  font-family: Panton-Bold;
+  font-size: 1.2rem;
 }
-
-.description {
-  font-size: 18px;
-  margin-top: 8%;
-  color: black;
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .form-container {
@@ -40,3 +49,7 @@ body {
   margin: 0px auto;
   padding: 30px;
 }
+
+// %max-width-350 {
+//   max-width: 350px;
+// }
