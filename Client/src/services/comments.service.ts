@@ -5,7 +5,7 @@ import { HttpService } from './http.service';
 import { IComment } from '../app/interfaces/comment.interface';
 import { ICommentResponse } from '../app/interfaces/response.interface';
 import { ErrorHandlingService } from './error-handling.service';
-import { IPostCommentFormData } from '../app/interfaces/post-comment-form-data.interface';
+import { IPostCommentFormData } from '../app/interfaces/post-comment-form-data.interface'; // Updated import
 
 @Injectable({
   providedIn: 'root',

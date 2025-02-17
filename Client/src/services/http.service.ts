@@ -29,10 +29,7 @@ export class HttpService {
     return this.httpClient.post<T>(url, body);
   }
 
-  public getImageUrl(fileLink: string): string {
+  public getFileUrl(fileLink: string): string {
     return `${this.baseApiUrl}/${fileLink}`;
-  }
-  public getTextFile(fileUrl: string): Observable<string> {
-    return this.httpClient.get(fileUrl, { responseType: 'text' });
   }
 }

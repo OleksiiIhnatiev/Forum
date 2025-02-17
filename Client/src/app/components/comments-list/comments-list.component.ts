@@ -40,7 +40,7 @@ export class CommentsListComponent implements OnInit {
     this.loadComments();
   }
 
-  public loadComments(): void {
+  private loadComments(): void {
     this.isLoading = true;
 
     this.commentsService
@@ -61,6 +61,14 @@ export class CommentsListComponent implements OnInit {
       });
   }
 
+  private sortComments(): void {
+    this.comments.sort((a, b) => {
+      if (a[this.sortBy] < b[this.sortBy]) return this.order === 'asc' ? -1 : 1;
+      if (a[this.sortBy] > b[this.sortBy]) return this.order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
   public changeSort(field: keyof IComment): void {
     if (this.sortBy === field) {
       this.order = this.order === 'asc' ? 'desc' : 'asc';
@@ -69,14 +77,6 @@ export class CommentsListComponent implements OnInit {
       this.order = 'asc';
     }
     this.sortComments();
-  }
-
-  public sortComments(): void {
-    this.comments.sort((a, b) => {
-      if (a[this.sortBy] < b[this.sortBy]) return this.order === 'asc' ? -1 : 1;
-      if (a[this.sortBy] > b[this.sortBy]) return this.order === 'asc' ? 1 : -1;
-      return 0;
-    });
   }
 
   public get sortIconClass(): string {

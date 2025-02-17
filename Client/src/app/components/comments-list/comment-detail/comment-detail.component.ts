@@ -32,7 +32,7 @@ export class CommentDetailComponent implements OnInit {
   }
 
   public get imgSrc(): string {
-    return this.httpService.getImageUrl(this.fileLink);
+    return this.httpService.getFileUrl(this.fileLink);
   }
 
   public get fileLink(): string {
@@ -78,7 +78,7 @@ export class CommentDetailComponent implements OnInit {
   }
 
   public openTextFileDialog(fileLink: string): void {
-    const fileUrl = this.httpService.getImageUrl(fileLink);
+    const fileUrl = this.httpService.getFileUrl(fileLink);
 
     const a = document.createElement('a');
     a.href = fileUrl;

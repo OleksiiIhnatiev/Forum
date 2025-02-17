@@ -53,6 +53,25 @@ export class CommentDialogComponent {
     this.captchaImage$ = this.captchaService.generateCaptchaImage$();
   }
 
+  // Приватные методы
+  private setImagePreview(img: HTMLImageElement): void {
+    const scale = Math.min(320 / img.width, 240 / img.height);
+    img.width = img.width * scale;
+    img.height = img.height * scale;
+    this.previewImage = img.src;
+  }
+
+  private prepareFormData() {
+    const decodedToken = this.authService.decodeToken();
+    return {
+      userId: decodedToken?.sub || '',
+      text: this.htmlSanitizer.sanitize(this.commentForm.value.text),
+      parentCommentId: this.data?.parentCommentId ?? null,
+      homePage: this.commentForm.value.homePage || null,
+      messageFile: this.selectedFile,
+    };
+  }
+
   public validateCaptcha(): boolean {
     const isValid =
       this.commentForm.value.captcha === this.captchaService.currentCaptchaText;
@@ -95,13 +114,6 @@ export class CommentDialogComponent {
     }
   }
 
-  private setImagePreview(img: HTMLImageElement): void {
-    const scale = Math.min(320 / img.width, 240 / img.height);
-    img.width = img.width * scale;
-    img.height = img.height * scale;
-    this.previewImage = img.src;
-  }
-
   public onSubmit(): void {
     if (this.commentForm.valid && this.validateCaptcha()) {
       const formData = this.prepareFormData();
@@ -110,17 +122,6 @@ export class CommentDialogComponent {
         .pipe(this.errorHandlingService.handleError())
         .subscribe(() => this.dialogRef.close());
     }
-  }
-
-  private prepareFormData() {
-    const decodedToken = this.authService.decodeToken();
-    return {
-      userId: decodedToken?.sub || '',
-      text: this.htmlSanitizer.sanitize(this.commentForm.value.text),
-      parentCommentId: this.data?.parentCommentId ?? null,
-      homePage: this.commentForm.value.homePage || null,
-      messageFile: this.selectedFile,
-    };
   }
 
   public onCancel(): void {
