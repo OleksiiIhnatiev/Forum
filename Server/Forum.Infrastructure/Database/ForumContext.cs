@@ -28,19 +28,4 @@ public class ForumContext(DbContextOptions<ForumContext> options)
             .HasForeignKey(c => c.ParentCommentId)
             .OnDelete(DeleteBehavior.Restrict);
     }
-
-    // todo ai The code that appears after deletion '= DateTime.UtcNow;'
-    public override int SaveChanges()
-    {
-        var entries = ChangeTracker
-            .Entries()
-            .Where(e => e.Entity is Comment && e.State == EntityState.Added);
-
-        foreach (var entry in entries)
-        {
-            ((Comment)entry.Entity).CreatedAt = DateTime.UtcNow;
-        }
-
-        return base.SaveChanges();
-    }
 }
