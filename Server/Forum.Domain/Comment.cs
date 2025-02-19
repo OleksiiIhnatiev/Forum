@@ -5,8 +5,7 @@ public class Comment
     public Guid Id { get; set; }
     public string Text { get; set; }
 
-    // note ai I would return '= DateTime.UtcNow;' implementation as it takes less code writing and looks less voluminous. Look what has appeared in ForumContext
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public Guid UserId { get; set; }
     public User User { get; set; }
     public string? HomePage { get; set; }

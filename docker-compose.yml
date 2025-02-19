@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./Client:/usr/src/app
+      - /usr/src/app/node_modules
+    stdin_open: true
+    tty: true
+    networks:
+      - demoappnetwork
+
+  mssql-container:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: mssql-container
+    environment:
+      - ACCEPT_EULA=Y 
+      - SA_PASSWORD=MyDemoPassword@2025
+    ports:
+      - "8002:1433"
+    networks:
+      - demoappnetwork
+
+  forum.api:
+    image: ${DOCKER_REGISTRY-}forumapi
+    build:
+      context: ./Server
+      dockerfile: Forum.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mssql-container
+    networks:
+      - demoappnetwork
+    volumes:
+    - ./Server/Forum.Api/wwwroot:/app/wwwroot
+    environment:
+      - ConnectionStrings__ForumSqlServer=Server=mssql-container,1433;Database=Forum;User Id=sa;Password=MyDemoPassword@2025;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - Jwt__Key=A1b2C3d4E5f6G7h8I9J0K1L2M3N4O5P6
+      - Jwt__ExpireDays=1
+      - Jwt__Issuer=https://localhost:4200
+      - Jwt__Audience=https://localhost:4200
+      - Authentication__Forum__Provider=FORUM
+      - Authentication__Forum__TokenName=ForumToken
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
+    command: >
+      bash -c "until nc -z -v -w30 mssql-container 1433; do echo waiting for mssql; sleep 5; done; dotnet ef database update"
+
+networks:
+  demoappnetwork:
+    driver: bridge
