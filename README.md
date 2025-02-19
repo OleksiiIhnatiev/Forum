@@ -3,6 +3,8 @@
 ## Description
 Forum is a web application built with Angular, .NET, and MSSQL. The platform allows users to register and post messages, either as main comments or as replies to other comments. Users can attach various files such as HomePage, JPG, GIF, PNG, and TXT files to their messages. The main page displays a table with the primary comments and allows sorting. By clicking on a row in the table, users can navigate to the main comment along with its nested replies.
 
+You can view the project documentation on [Google Drive](https://drive.google.com/file/d/11oer-b-a54AyhwUlJrUAmYdtbNwCrEB8/view?usp=sharing).
+
 ## Features
 - User registration
 - Main and nested comments
